@@ -12,21 +12,28 @@ import {
 import axios from 'axios';
 import {Article} from '../models/Article';
 import {Colors} from '../constant/Colors';
+import {useTheme} from '@react-navigation/native';
 
-const NEWS_API_URL = 'https://newsapi.org/v2/top-headlines';
 const API_KEY = 'pub_516786e5700021db69c12fd9193baa501a35c';
 
-export default function NewsListScreen({navigation}: any): React.FC {
+export default function NewsListScreen({navigation}: any): React.JSX.Element {
   const [news, setNews] = useState<Article[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredNews, setFilteredNews] = useState<Article[]>([]);
   const [refreshing, setRefreshing] = useState(false);
+  const {colors} = useTheme();
 
   useEffect(() => {
     fetchNews();
   }, []);
 
   useEffect(() => {
+    const filterNews = () => {
+      const filtered = news.filter(article =>
+        article.title.toLowerCase().includes(searchQuery.toLowerCase()),
+      );
+      setFilteredNews(filtered);
+    };
     filterNews();
   }, [searchQuery, news]);
 
@@ -41,13 +48,6 @@ export default function NewsListScreen({navigation}: any): React.FC {
     }
   };
 
-  const filterNews = () => {
-    const filtered = news.filter(article =>
-      article.title.toLowerCase().includes(searchQuery.toLowerCase()),
-    );
-    setFilteredNews(filtered);
-  };
-  console.log(filteredNews);
   const onRefresh = () => {
     setRefreshing(true);
     fetchNews().finally(() => setRefreshing(false));
@@ -73,10 +73,11 @@ export default function NewsListScreen({navigation}: any): React.FC {
   return (
     <View style={styles.container}>
       <TextInput
-        style={styles.searchInput}
-        placeholder="Search News..."
+        style={[styles.searchInput, {color: colors.text}]}
+        placeholder="Search News"
         value={searchQuery}
         onChangeText={setSearchQuery}
+        placeholderTextColor={colors.text}
       />
       <FlatList
         data={filteredNews}
@@ -141,39 +142,3 @@ const styles = StyleSheet.create({
     padding: 3,
   },
 });
-
-/*import {Button, Text, View} from 'react-native';
-import React from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {CommonActions} from '@react-navigation/native';
-
-export default function NewsListScreen({navigation}: any): React.JSX.Element {
-  return (
-    <View>
-      <Text>news list</Text>
-      <Button
-        title="logout"
-        onPress={async () => {
-          await AsyncStorage.clear(); // Clear all stored data
-          navigation.reset({
-            index: 0,
-            routes: [{name: 'LoginFormScreen'}],
-          });
-          /* await AsyncStorage.removeItem('hasLaunched');
-
-          navigation.dispatch(
-            CommonActions.reset({
-              index: 0,
-              routes: [{name: 'LoginFormScreen'}],
-            }),
-          );*/
-// navigation.navigate('LoginFormScreen');
-/*  }}
-      />
-    </View>
-  );
-}
-async function handleButtonPress(navigation: any) {
-  await AsyncStorage.setItem('hasLaunched', 'false');
-  navigation.navigate('LoginFormScreen');
-}*/

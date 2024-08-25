@@ -1,8 +1,10 @@
+import {useTheme} from '@react-navigation/native';
 import React from 'react';
 import {Text, Image, StyleSheet, ScrollView, View} from 'react-native';
 
 export default function NewsDetailsScreen({route}: any): React.JSX.Element {
   const {article} = route.params;
+  const {colors} = useTheme();
 
   return (
     <ScrollView style={styles.container}>
@@ -13,13 +15,15 @@ export default function NewsDetailsScreen({route}: any): React.JSX.Element {
           <Text>No Image</Text>
         </View>
       )}
-      <Text style={styles.title}>{article.title}</Text>
-      <Text style={styles.metaData}>
+      <Text style={[styles.title, {color: colors.text}]}>{article.title}</Text>
+      <Text style={[styles.metaData, {color: colors.primary}]}>
         {`Author: ${article.source_name || 'No author found'} | Published at: ${
           article.pubDate
         }`}
       </Text>
-      <Text style={styles.content}>{article.description}</Text>
+      <Text style={[styles.content, {color: colors.text}]}>
+        {article.description}
+      </Text>
     </ScrollView>
   );
 }

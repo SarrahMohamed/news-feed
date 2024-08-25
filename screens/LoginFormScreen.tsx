@@ -3,9 +3,12 @@ import React, {useEffect, useState} from 'react';
 import InputFeild from '../components/InputFeild';
 import {Picker} from '@react-native-picker/picker';
 import CustomButton from '../components/CustomButton';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useTheme} from '@react-navigation/native';
 
 export default function LoginFormScreen({navigation}: any): React.JSX.Element {
   const [formValid, setFormValid] = useState(false);
+  const {colors} = useTheme();
 
   const [inputvalues, setInputValues] = useState({
     fullName: {
@@ -25,7 +28,7 @@ export default function LoginFormScreen({navigation}: any): React.JSX.Element {
       isValid: false,
     },
   });
-  function inputChangedHandler(inputIdentifier, enteredValue) {
+  function inputChangedHandler(inputIdentifier: string, enteredValue: string) {
     setInputValues(currentInputValues => {
       return {
         ...currentInputValues,
@@ -88,8 +91,10 @@ export default function LoginFormScreen({navigation}: any): React.JSX.Element {
   return (
     <View style={styles.containerView}>
       <View style={styles.titlesContainer}>
-        <Text style={styles.titleText}>We Say Hello!</Text>
-        <Text style={styles.descriptionText}>
+        <Text style={[styles.titleText, {color: colors.text}]}>
+          We Say Hello!
+        </Text>
+        <Text style={[styles.descriptionText, {color: colors.text}]}>
           Please enter your Data to be able to see the News
         </Text>
       </View>
@@ -126,7 +131,7 @@ export default function LoginFormScreen({navigation}: any): React.JSX.Element {
           ]}>
           <Picker
             selectedValue={inputvalues.selectedAge.value}
-            onValueChange={(itemValue, itemIndex) => {
+            onValueChange={itemValue => {
               inputChangedHandler('selectedAge', itemValue);
             }}
             style={styles.picker}>
@@ -160,6 +165,15 @@ export default function LoginFormScreen({navigation}: any): React.JSX.Element {
         disabled={!formValid}
         title="login"
         onPress={async () => {
+          const fullName = inputvalues.fullName.value;
+          const phoneNumber = inputvalues.PhoneNumber.value;
+          const age = inputvalues.selectedAge.value;
+          const gender = inputvalues.gender.value;
+          await AsyncStorage.setItem(
+            'userInfo',
+            JSON.stringify({fullName, phoneNumber, age, gender}),
+          );
+
           navigation.reset({
             index: 0,
             routes: [{name: 'MainOverview'}],
