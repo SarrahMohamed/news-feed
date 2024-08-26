@@ -1,7 +1,6 @@
 export class Colors {
-  // Define color properties as static constants
-  static readonly gray95: string = '#ffffff'; // Example: Blue
-  static readonly secondary: string = '#00b377'; // Example: Green
+  static readonly gray95: string = '#ffffff';
+  static readonly secondary: string = '#00b377';
 }
 export const darkTheme = {
   dark: true,
