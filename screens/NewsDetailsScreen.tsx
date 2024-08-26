@@ -1,28 +1,35 @@
 import {useTheme} from '@react-navigation/native';
 import React from 'react';
 import {Text, Image, StyleSheet, ScrollView, View} from 'react-native';
+import {newsData} from '../constant/NewsData';
 
 export default function NewsDetailsScreen({route}: any): React.JSX.Element {
-  const {article} = route.params;
+  const {article, itemID} = route.params;
+  var selectedArtical = article;
   const {colors} = useTheme();
 
+  if (!article) {
+    selectedArtical = newsData.find(item => item.artical_id === itemID);
+  }
   return (
     <ScrollView style={styles.container}>
-      {article.image_url ? (
-        <Image source={{uri: article.image_url}} style={styles.image} />
+      {selectedArtical.image_url ? (
+        <Image source={{uri: selectedArtical.image_url}} style={styles.image} />
       ) : (
         <View style={styles.placeholderImage}>
           <Text>No Image</Text>
         </View>
       )}
-      <Text style={[styles.title, {color: colors.text}]}>{article.title}</Text>
+      <Text style={[styles.title, {color: colors.text}]}>
+        {selectedArtical.title}
+      </Text>
       <Text style={[styles.metaData, {color: colors.primary}]}>
-        {`Author: ${article.source_name || 'No author found'} | Published at: ${
-          article.pubDate
-        }`}
+        {`Author: ${
+          selectedArtical.source_name || 'No author found'
+        } | Published at: ${selectedArtical.pubDate}`}
       </Text>
       <Text style={[styles.content, {color: colors.text}]}>
-        {article.description}
+        {selectedArtical.description}
       </Text>
     </ScrollView>
   );

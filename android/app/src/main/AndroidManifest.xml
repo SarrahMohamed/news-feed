@@ -20,6 +20,8 @@
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
             <category android:name="android.intent.category.LAUNCHER" />
+            <data android:scheme="voisNews" android:host="news" android:pathPrefix="/details" />
+
         </intent-filter>
       </activity>
     </application>

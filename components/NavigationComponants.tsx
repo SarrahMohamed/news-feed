@@ -4,6 +4,7 @@ import React, {useEffect, useState} from 'react';
 
 import {
   DefaultTheme,
+  LinkingOptions,
   NavigationContainer,
   Theme,
 } from '@react-navigation/native';
@@ -58,9 +59,19 @@ export default function NavigationComponant() {
   if (isFirstLaunch === null) {
     return <Text>fisrt lunch</Text>;
   }
+
+  const linking: LinkingOptions = {
+    prefixes: ['voisNews://'],
+    config: {
+      screens: {
+        MainOverview: 'news',
+        DetailsScreen: 'news/details?itemID=:itemID',
+      },
+    },
+  };
   return (
     <I18nextProvider i18n={i18n}>
-      <NavigationContainer theme={theme}>
+      <NavigationContainer theme={theme} linking={linking}>
         <Stack.Navigator
           initialRouteName={isFirstLaunch ? 'LoginFormScreen' : 'MainOverview'}>
           <Stack.Screen
