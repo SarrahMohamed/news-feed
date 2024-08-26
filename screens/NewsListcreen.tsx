@@ -13,6 +13,7 @@ import axios from 'axios';
 import {Article} from '../models/Article';
 import {Colors} from '../constant/Colors';
 import {useTheme} from '@react-navigation/native';
+import {useTranslation} from 'react-i18next';
 
 const API_KEY = 'pub_516786e5700021db69c12fd9193baa501a35c';
 
@@ -22,6 +23,7 @@ export default function NewsListScreen({navigation}: any): React.JSX.Element {
   const [filteredNews, setFilteredNews] = useState<Article[]>([]);
   const [refreshing, setRefreshing] = useState(false);
   const {colors} = useTheme();
+  const {t} = useTranslation();
 
   useEffect(() => {
     fetchNews();
@@ -74,7 +76,7 @@ export default function NewsListScreen({navigation}: any): React.JSX.Element {
     <View style={styles.container}>
       <TextInput
         style={[styles.searchInput, {color: colors.text}]}
-        placeholder="Search News"
+        placeholder={t('Search_News')}
         value={searchQuery}
         onChangeText={setSearchQuery}
         placeholderTextColor={colors.text}

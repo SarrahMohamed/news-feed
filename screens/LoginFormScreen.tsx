@@ -5,10 +5,12 @@ import {Picker} from '@react-native-picker/picker';
 import CustomButton from '../components/CustomButton';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useTheme} from '@react-navigation/native';
+import {useTranslation} from 'react-i18next';
 
 export default function LoginFormScreen({navigation}: any): React.JSX.Element {
   const [formValid, setFormValid] = useState(false);
   const {colors} = useTheme();
+  const {t} = useTranslation();
 
   const [inputvalues, setInputValues] = useState({
     fullName: {
@@ -92,25 +94,23 @@ export default function LoginFormScreen({navigation}: any): React.JSX.Element {
     <View style={styles.containerView}>
       <View style={styles.titlesContainer}>
         <Text style={[styles.titleText, {color: colors.text}]}>
-          We Say Hello!
+          {t('welcome_title')}
         </Text>
         <Text style={[styles.descriptionText, {color: colors.text}]}>
-          Please enter your Data to be able to see the News
+          {t('login_des')}
         </Text>
       </View>
       <InputFeild
-        label="Full name"
+        label={t('full_name')}
         invalid={inputvalues.fullName.isValid}
         textInputConfig={{}}
         onChangeText={inputChangedHandler.bind(this, 'fullName')}
       />
       {inputvalues.fullName.isValid && (
-        <Text style={styles.errorLabel}>
-          you should enter valid name above 3 char
-        </Text>
+        <Text style={styles.errorLabel}>{t('invalid_name')}</Text>
       )}
       <InputFeild
-        label="Phone number"
+        label={t('Phone_number')}
         invalid={inputvalues.PhoneNumber.isValid}
         textInputConfig={{
           keyboardType: 'decimal-pad',
@@ -119,9 +119,7 @@ export default function LoginFormScreen({navigation}: any): React.JSX.Element {
         onChangeText={inputChangedHandler.bind(this, 'PhoneNumber')}
       />
       {inputvalues.PhoneNumber.isValid && (
-        <Text style={styles.errorLabel}>
-          you should enter valid phone above 11 digit
-        </Text>
+        <Text style={styles.errorLabel}>{t('invalid_number')}</Text>
       )}
       <View style={styles.pickerContainer}>
         <View
@@ -135,7 +133,7 @@ export default function LoginFormScreen({navigation}: any): React.JSX.Element {
               inputChangedHandler('selectedAge', itemValue);
             }}
             style={styles.picker}>
-            <Picker.Item label="Select Age" value="" />
+            <Picker.Item label={t('select_age')} value="" />
             {[...Array(83)].map((_, i) => (
               <Picker.Item key={i} label={`${i + 18}`} value={`${i + 18}`} />
             ))}
@@ -152,18 +150,18 @@ export default function LoginFormScreen({navigation}: any): React.JSX.Element {
             onValueChange={itemValue => {
               inputChangedHandler('gender', itemValue);
             }}>
-            <Picker.Item label="Select Gender" value={undefined} />
-            <Picker.Item label="Male" value="male" />
-            <Picker.Item label="Female" value="female" />
+            <Picker.Item label={t('select_gender')} value={undefined} />
+            <Picker.Item label={t('male')} value={t('male')} />
+            <Picker.Item label={t('female')} value={t('female')} />
           </Picker>
         </View>
       </View>
       {(inputvalues.selectedAge.isValid || inputvalues.gender.isValid) && (
-        <Text style={styles.errorLabel}>you should enter age and gender</Text>
+        <Text style={styles.errorLabel}>{t('invalid_gender')}</Text>
       )}
       <CustomButton
         disabled={!formValid}
-        title="login"
+        title={t('login')}
         onPress={async () => {
           const fullName = inputvalues.fullName.value;
           const phoneNumber = inputvalues.PhoneNumber.value;

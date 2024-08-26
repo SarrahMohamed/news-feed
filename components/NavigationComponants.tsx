@@ -1,3 +1,5 @@
+import 'intl-pluralrules';
+
 import React, {useEffect, useState} from 'react';
 
 import {
@@ -12,6 +14,8 @@ import LoginFormScreen from '../screens/LoginFormScreen';
 import NewsDetailsScreen from '../screens/NewsDetailsScreen';
 import {darkTheme} from '../constant/Colors';
 import {Text} from 'react-native';
+import {I18nextProvider} from 'react-i18next';
+import i18n from '../language/i18n';
 
 export default function NavigationComponant() {
   const Stack = createNativeStackNavigator();
@@ -55,26 +59,28 @@ export default function NavigationComponant() {
     return <Text>fisrt lunch</Text>;
   }
   return (
-    <NavigationContainer theme={theme}>
-      <Stack.Navigator
-        initialRouteName={isFirstLaunch ? 'LoginFormScreen' : 'MainOverview'}>
-        <Stack.Screen
-          name="LoginFormScreen"
-          component={LoginFormScreen}
-          options={{headerShown: false}}
-        />
+    <I18nextProvider i18n={i18n}>
+      <NavigationContainer theme={theme}>
+        <Stack.Navigator
+          initialRouteName={isFirstLaunch ? 'LoginFormScreen' : 'MainOverview'}>
+          <Stack.Screen
+            name="LoginFormScreen"
+            component={LoginFormScreen}
+            options={{headerShown: false}}
+          />
 
-        <Stack.Screen name="MainOverview" options={{headerShown: false}}>
-          {props => (
-            <BottomTabNavigator
-              {...props}
-              darkMode={darkMode}
-              toggleTheme={toggleTheme}
-            />
-          )}
-        </Stack.Screen>
-        <Stack.Screen name="DetailsScreen" component={NewsDetailsScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
+          <Stack.Screen name="MainOverview" options={{headerShown: false}}>
+            {props => (
+              <BottomTabNavigator
+                {...props}
+                darkMode={darkMode}
+                toggleTheme={toggleTheme}
+              />
+            )}
+          </Stack.Screen>
+          <Stack.Screen name="DetailsScreen" component={NewsDetailsScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </I18nextProvider>
   );
 }

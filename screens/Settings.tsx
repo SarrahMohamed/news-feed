@@ -3,6 +3,8 @@ import {View, Text, Switch, StyleSheet} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useTheme} from '@react-navigation/native';
 import CustomButton from '../components/CustomButton';
+import {Picker} from '@react-native-picker/picker';
+import {useTranslation} from 'react-i18next';
 
 type SettingsScreenProps = {
   darkMode: boolean;
@@ -15,6 +17,11 @@ export default function SettingsScreen({
   toggleTheme,
   navigation,
 }: SettingsScreenProps) {
+  const {t, i18n} = useTranslation();
+
+  const changeLanguage = (language: string) => {
+    i18n.changeLanguage(language);
+  };
   const {colors} = useTheme();
   console.log(colors);
   const [userInfo, setUserInfo] = useState<{
@@ -39,16 +46,16 @@ export default function SettingsScreen({
       {userInfo && (
         <View style={styles.userInfo}>
           <Text style={[styles.userInfoText, textColorStyle]}>
-            Name: {userInfo.fullName}
+            {t('full_name')}: {userInfo.fullName}
           </Text>
           <Text style={[styles.userInfoText, textColorStyle]}>
-            Phone: {userInfo.phoneNumber}
+            {t('Phone_number')}: {userInfo.phoneNumber}
           </Text>
           <Text style={[styles.userInfoText, textColorStyle]}>
-            Age: {userInfo.age}
+            {t('age')}: {userInfo.age}
           </Text>
           <Text style={[styles.userInfoText, textColorStyle]}>
-            Gender: {userInfo.gender}
+            {t('gender')}: {userInfo.gender}
           </Text>
         </View>
       )}
@@ -56,8 +63,15 @@ export default function SettingsScreen({
         <Text style={[styles.toggleText, textColorStyle]}>Dark Mode</Text>
         <Switch value={darkMode} onValueChange={toggleTheme} />
       </View>
+      <Picker
+        selectedValue={i18n.language}
+        style={[styles.picker, {color: colors.text}]}
+        onValueChange={itemValue => changeLanguage(itemValue)}>
+        <Picker.Item label="English" value="en" />
+        <Picker.Item label="العربيه" value="ar" />
+      </Picker>
       <CustomButton
-        title="logout"
+        title={t('logout')}
         onPress={async () => {
           await AsyncStorage.clear(); // Clear all stored data in logout
           navigation.reset({
@@ -94,5 +108,9 @@ const styles = StyleSheet.create({
   },
   toggleText: {
     fontSize: 18,
+  },
+  picker: {
+    height: 50,
+    width: 150,
   },
 });

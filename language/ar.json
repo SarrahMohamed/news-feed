@@ -1,0 +1,21 @@
+{
+  "welcome_title": "مرحبا",
+  "login_des": "ادخل بياناتك لتممكن من الاستمرار ومتابعه الاخبار",
+  "full_name": "الاسم ",
+  "Phone_number": "رقم التليفون",
+  "invalid_name": "يجب ان تدخل على الاقل 3 احرف",
+  "invalid_number": " يجب ان تدهل رقم مكون من 11 رقم",
+  "select_age": "العمر",
+  "select_gender": "النوع",
+  "male": "ذكر",
+  "female": "انثى",
+  "invalid_gender": "يجب ان تدخل العمر والنوع",
+  "login": "تسجيل دخول",
+  "NewsListScreen": "قائمه الاخبار",
+  "SettingsScreen": "الاعدادات",
+  "DetailsScreen": "التفاصيل",
+  "Search_News": "ابحث عن خبر",
+  "age": "العمر",
+  "gender": "النوع",
+  "logout": "تسجيل خروج"
+}

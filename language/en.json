@@ -1,0 +1,21 @@
+{
+  "welcome_title": " We Say Hello!",
+  "login_des": " Please enter your Data to be able to see the News",
+  "full_name": "Full name",
+  "Phone_number": "Phone number",
+  "invalid_name": "you should enter valid name above 3 char",
+  "invalid_number": " you should enter valid phone above 11 digit",
+  "select_age": "select Age",
+  "select_gender": "Select Gender",
+  "male": "Male",
+  "female": "Female",
+  "invalid_gender": "you should enter age and gender",
+  "login": "login",
+  "NewsListScreen": "News List",
+  "SettingsScreen": "Sttings",
+  "DetailsScreen": "Details",
+  "Search_News": "Search News!",
+  "age": "Age",
+  "gender": "Gender",
+  "logout": "logout"
+}
